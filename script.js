@@ -1,100 +1,105 @@
-const name = document.getElementById('name'); // Поле ввода названия товара
-const quantity = document.getElementById('quantity'); // Поле ввода количества
-const price = document.getElementById('price'); // Поле ввода стоимости за единицу
-let totalSum = 0; // Переменная для подсчета суммарной стоимости заказа
+const name = document.getElementById('name');
+const quantity = document.getElementById('quantity');
+const price = document.getElementById('price');
+let totalSum = 0;
 
-function appendRow() { // Функция для создания строк таблицы
-    let row = document.createElement('tr'); // Создаем экземпляр строки
-    let td1 = document.createElement('td'); // Создание 4 ячеек
+function appendRow() {
+
+    let row = document.createElement('tr');
+    for(let i = 0; i < 4; i++) {
+
+    }
+    let td1 = document.createElement('td');
     let td2 = document.createElement('td');
     let td3 = document.createElement('td');
     let td4 = document.createElement('td');
 
-    td4.classList.add('summary'); // У последней ячейки спец класс
+    td4.classList.add('summary');
 
     td1.appendChild(document.createTextNode(name.value));
     td2.appendChild(document.createTextNode(quantity.value));
     td3.appendChild(document.createTextNode(price.value));
     td4.appendChild(document.createTextNode(quantity.value * price.value));
+
     totalSum += quantity.value * price.value;
 
-    row.appendChild(td1); // Добавляем ячейки в строку
+    row.appendChild(td1);
     row.appendChild(td2);
     row.appendChild(td3);
     row.appendChild(td4);
-    return row; // Собранная строчка
+    return row;
 }
 
-const tdHover = () => { // Обработчик для наведения мышью над 4 столбцом
+const hoverOnTd = () => {
     document.querySelectorAll('.summary').forEach((item) => {
-        item.addEventListener('mouseover', function () { // При наведении мыши
-            this.style.background = 'red';
+        item.addEventListener('mouseover', function () {
+            this.style.background = 'green';
         });
-        item.addEventListener('mouseout', function () { // Мышь покидает элемент
+        item.addEventListener('mouseout', function () {
             this.style.background = 'transparent';
         });
     });
 }
 
-document.getElementById('reset').onclick = function(event) { // Обработчик нажатия кнопки "очистить"
-    event.preventDefault(); // Остановка перехода по ссылке
-    document.getElementById('result').innerHTML = ''; // Очистка содержимого блока rezult
+document.getElementById('reset').onclick = function(event) {
+    event.preventDefault();
+    document.getElementById('result').innerHTML = '';
     totalSum = 0; // Сброс суммарной стоимости
 };
 
-document.getElementById('calc').onclick = function(event) { // Обработчик нажатия на кнопку "добавить"
+document.getElementById('calc').onclick = function(event) {
     event.preventDefault(); // Остановка перехода по ссылке
 
-    if (name.value != '' && quantity.value != '' && price.value != '') { // Если поля форм не пустые
-        if (document.getElementById('result').innerHTML === '') { // Если таблица еще не существует
+    if (name.value != '' && quantity.value != '' && price.value != '') {
+        if (document.getElementById('result').innerHTML === '') {
             totalSum = 0; // Сброс суммы
 
-            let table = document.createElement('table'); // создаем экземпляр таблицы
-            let caption = document.createElement('caption'); // создаем экз названия таблицы
-            let header = document.createElement('tr'); // заглавная строчка
+            let table = document.createElement('table');
+            let caption = document.createElement('caption');
+            let header = document.createElement('tr');
 
-            let th1 = document.createElement('th'); // создание 4 ячеек заглавной строчки
+            let th1 = document.createElement('th');
             let th2 = document.createElement('th');
             let th3 = document.createElement('th');
             let th4 = document.createElement('th');
 
-            caption.appendChild(document.createTextNode('Заказ')); // заполнение текстом навзвания таблицы
+            caption.appendChild(document.createTextNode('Заказ'));
 
-            th1.appendChild(document.createTextNode('Название')); // заполнение текстом 4 ячеек
+            th1.appendChild(document.createTextNode('Название'));
             th2.appendChild(document.createTextNode('Количество'));
             th3.appendChild(document.createTextNode('Стоимость 1 шт.'));
-            th4.appendChild(document.createTextNode('Суммарная стоимость, руб.'));
+            th4.appendChild(document.createTextNode('всего, руб.'));
 
-            header.appendChild(th1); // сборка заглавной строчки
+            header.appendChild(th1);
             header.appendChild(th2);
             header.appendChild(th3);
             header.appendChild(th4);
 
-            table.appendChild(caption); // добавить в таблицу название
-            table.appendChild(header); // добавить в таблицу заглавную строчку
-            table.appendChild(appendRow()); // добавить пользовательскую строчку
-            document.getElementById('result').appendChild(table); // добавить таблицу в блок rezult
+            table.appendChild(caption);
+            table.appendChild(header);
+            table.appendChild(appendRow());
+            document.getElementById('result').appendChild(table);
         } else { // Если таблица существует
             document.querySelector('#result table').removeChild(document.getElementById('total'));
             // Удалить итогов строку
-            document.querySelector('#result table').appendChild(appendRow()); // Добавить пользовательскую строку
+            document.querySelector('#result table').appendChild(appendRow());
         }
 
-        let total = document.createElement('tr'); // Сборка итоговой строчки
+        let total = document.createElement('tr');
         let total1 = document.createElement('td');
         let total2 = document.createElement('td');
 
         total.setAttribute('id', 'total');
-        total1.setAttribute('colspan', '3'); // 1 ячейка в 3 раза длинее обычных
-        total2.classList.add('summary'); // у 2 есть спецкласс для подсветки при наведении
+        total1.setAttribute('colspan', '3');
+        total2.classList.add('summary');
 
         total1.appendChild(document.createTextNode('Сумма заказа:'));
-        total2.appendChild(document.createTextNode(totalSum)); // заполнение 2 ячейки суммарной стоимостью
+        total2.appendChild(document.createTextNode(totalSum));
 
         total.appendChild(total1);
         total.appendChild(total2);
-        document.querySelector('#result table').appendChild(total); // сборка и добавление строчки в таблицу
-        tdHover(); // отслеживание наведения мыши на 4 стобец
+        document.querySelector('#result table').appendChild(total);
+        hoverOnTd();
     } else
-        alert('Не введены обязательные параметры!'); // ошибка, если поля пустые
+        alert('заполните поля');
 };
