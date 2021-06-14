@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>форма заказа</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<form action="" id="form">
+    <div class="wrapper">
+
+
+    <div>
+        <label>Название товара
+            <input type="text" id="name" required>
+        </label>
+
+    </div>
+
+    <div>
+        <label>Количество
+            <input type="number" name="quantity" id="quantity" required>
+            <span>шт.</span>
+        </label>
+
+    </div>
+    <div>
+        <label> цена
+            <input type="number" name="cost" id="price" required>
+            <span>руб.</span>
+        </label>
+
+    </div>
+
+    <div>
+        <button id="reset">Очистить</button>
+        <button id="calc">Добавить</button>
+    </div>
+    </div>
+</form>
+
+<div id="result"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
